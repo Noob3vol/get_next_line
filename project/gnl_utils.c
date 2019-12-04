@@ -82,36 +82,7 @@ void		ft_del_fd(int fd, t_buflist **buflst)
 	(*buflst) = start;
 }
 
-int			ft_dump_buf(char **line, t_buflist *lst)
-{
-	char	*new;
-	int		i;
-	int		j;
-	int		new_len;
-
-	i = 0;
-	j = 0;
-	while (lst->buffer[i] && lst->buffer[i] != '\n' && i < BUFFER_SIZE)
-		i++;
-	new_len = i;
-	while ((*line) && (*line)[j])
-		j++;
-	new_len += j;
-	if (!(new = (char *)malloc(sizeof(char) * (new_len + 1))))
-		return (-1);
-	i = -1;
-	j = 0;
-	new[new_len] = '\0';
-	while ((*line) && (new[j] = (*line)[j]))
-		j++;
-	while (lst->buffer[++i] && lst->buffer[i] != '\n' && i < BUFFER_SIZE)
-		new[j + i] = lst->buffer[i];
-	free(*line);
-	*line = new;
-	return ((j = (lst->buffer[i] == '\n' ? 0 : 1)));
-}
-
-void		ft_clr_buf(char *buf)
+static void		ft_clr_buf(char buf[])
 {
 	int i;
 	int j;
@@ -123,13 +94,49 @@ void		ft_clr_buf(char *buf)
 		buf[i] = '\0';
 		i++;
 	}
-	if (buf[i] == '\n')
-		buf[i] = '\0';
 	while (++i < BUFFER_SIZE)
 	{
 		buf[j] = buf[i];
 		j++;
 	}
-	while (++j < BUFFER_SIZE)
+	while (j < BUFFER_SIZE)
+	{
 		buf[j] = '\0';
+		j++;
+	}
 }
+
+int			ft_dump_buf(char **line, char buffer[])
+{
+	char	*new;
+	int		i;
+	int		j;
+	int		new_len;
+
+	i = 0;
+	j = 0;
+	while (buffer[i] && buffer[i] != '\n' && i < BUFFER_SIZE)
+		i++;
+	new_len = i;
+	while ((*line) && (*line)[j])
+		j++;
+	new_len += j;
+	if (!(new = (char *)malloc(sizeof(char) * (new_len + 1))))
+		return (-1);
+	i = 0;
+	j = 0;
+	new[new_len] = '\0';
+	while ((*line) && (new[j] = (*line)[j]))
+		j++;
+	while (buffer[i] && buffer[i] != '\n' && i < BUFFER_SIZE)
+	{
+		new[j + i] = buffer[i];
+		i++;
+	}
+	free(*line);
+	*line = new;
+	j = (buffer[i] == '\n' ? 0 : 1);
+	ft_clr_buf(buffer);
+	return (j);
+}
+

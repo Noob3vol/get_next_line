@@ -21,9 +21,8 @@ typedef	struct	s_buflist
 }				t_buflist;
 
 t_buflist		*ft_get_fd(t_buflist **buffer, int fd);
-int				ft_dump_buf(char **line, t_buflist *buffer);
+int				ft_dump_buf(char **line, char buffer[]);
 void			ft_del_fd(int fd, t_buflist **alst);
 void			ft_pop_list(t_buflist *buf);
-void			ft_clr_buf(char *buf);
 
 #endif

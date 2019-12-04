@@ -4,7 +4,7 @@ NAME = gnl
 
 # DIR
 OUTDIR = ~/42/Games/outlib
-OUTHDIR = ../../outlib/include
+OUTHDIR = ../../../Games/outlib/include
 HDIR = .
 
 # FICHIER
@@ -13,7 +13,7 @@ SRC =	gnl.c \
 		gnl_utils.c
 	
 # COMPILER
-CC = gcc
+CC = clang
 WFLAG = -Wall -Wextra -Werror
 DFLAG = -g3 -fsanitize=address
 
@@ -28,7 +28,7 @@ all : $(NAME)
 
 $(NAME) :
 	make -C $(OUTDIR)
-	$(CC) -o $(NAME) $(INC) $(WFLAG) $(SRC) $(LIB) -DBUFFER_SIZE=1
+	$(CC) -o $(NAME) $(INC) $(WFLAG) $(SRC) $(LIB) -DBUFFER_SIZE=10
 
 test:
 	make -C $(OUTDIR)
