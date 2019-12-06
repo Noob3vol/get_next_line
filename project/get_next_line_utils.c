@@ -6,7 +6,7 @@
 /*   By: iguidado <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:25:50 by iguidado          #+#    #+#             */
-/*   Updated: 2019/12/05 20:41:38 by iguidado         ###   ########.fr       */
+/*   Updated: 2019/12/06 01:03:30 by iguidado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int			ft_dump_buf(char buffer[], char **line)
 {
 	int		i;
 	int		j;
-	int		new_len;
 	char	*new;
 
 	i = 0;
@@ -67,3 +66,20 @@ int			ft_dump_buf(char buffer[], char **line)
 	ft_clr_buf(buffer);
 	return (j);
 }
+
+/*
+**	#include "libft.h"
+**	int		main(void)
+**	{
+**		char buff_test[BUFFER_SIZE] = "0123456789";
+**		char *line = NULL;
+**		char **line_ptr = &line;
+**
+**		ft_print_memory((void *)buff_test, BUFFER_SIZE + 1);
+**		ft_putnbr(ft_dump_buf(buff_test, line_ptr));
+**		P('\n');
+**		ft_print_memory((void *)buff_test, BUFFER_SIZE + 1);
+**		ft_putendl(line);
+**		return (0);
+**	}
+*/
