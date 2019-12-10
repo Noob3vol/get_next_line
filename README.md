@@ -1,2 +1,0 @@
-# gnl
-my_gnl
