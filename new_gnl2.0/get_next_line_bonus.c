@@ -6,7 +6,7 @@
 /*   By: iguidado <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 03:30:31 by iguidado          #+#    #+#             */
-/*   Updated: 2020/01/16 21:35:56 by iguidado         ###   ########.fr       */
+/*   Updated: 2020/01/18 00:22:09 by iguidado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	ft_manage_buf(char *buf)
 
 int	ft_dump_line(char *buf, char **line)
 {
-	int i;
-	int j;
-	char *new;
+	int		i;
+	int		j;
+	char	*new;
 
 	if (!*buf)
 		return (0);
@@ -70,8 +70,8 @@ int	ft_dump_line(char *buf, char **line)
 int	get_next_line(int fd, char **line)
 {
 	static t_buflist	*lst = NULL;
-	t_buflist		*buflst;
-	int		ret;
+	t_buflist			*buflst;
+	int					ret;
 
 	if (fd < 0 || !line || BUFFER_SIZE < 1)
 		return (-1);
@@ -81,13 +81,13 @@ int	get_next_line(int fd, char **line)
 	{
 		if ((ret = read(fd, buflst->buffer, BUFFER_SIZE)) < 1)
 		{
-			if (ret == -1)
+			if (!*line)
 			{
-				ft_del_fd(fd, &lst);
-				if (*line)
-					free(*line);
-				*line = NULL;
+				*line = (char *)malloc(sizeof(char));
+				**line = 0;
 			}
+			if (ret == -1)
+				ft_del_fd(fd, &lst);
 			return (ret);
 		}
 	}

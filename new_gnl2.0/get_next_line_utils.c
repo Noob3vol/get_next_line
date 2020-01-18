@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gnl.c                                              :+:      :+:    :+:   */
+/*   gnl_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iguidado <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/30 03:30:31 by iguidado          #+#    #+#             */
-/*   Updated: 2020/01/16 21:35:56 by iguidado         ###   ########.fr       */
+/*   Created: 2019/11/28 16:25:50 by iguidado          #+#    #+#             */
+/*   Updated: 2020/01/18 00:19:59 by iguidado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
-#include <unistd.h>
+#include "get_next_line.h"
 #include <stdlib.h>
 
 int	ft_manage_buf(char *buf)
@@ -43,9 +42,9 @@ int	ft_manage_buf(char *buf)
 
 int	ft_dump_line(char *buf, char **line)
 {
-	int i;
-	int j;
-	char *new;
+	int		i;
+	int		j;
+	char	*new;
 
 	if (!*buf)
 		return (0);
@@ -66,30 +65,19 @@ int	ft_dump_line(char *buf, char **line)
 	*line = new;
 	return (ft_manage_buf(buf));
 }
-
-int	get_next_line(int fd, char **line)
-{
-	static t_buflist	*lst = NULL;
-	t_buflist		*buflst;
-	int		ret;
-
-	if (fd < 0 || !line || BUFFER_SIZE < 1)
-		return (-1);
-	*line = NULL;
-	buflst = ft_get_fd(&lst, fd);
-	while (!ft_dump_line(buflst->buffer, line))
-	{
-		if ((ret = read(fd, buflst->buffer, BUFFER_SIZE)) < 1)
-		{
-			if (ret == -1)
-			{
-				ft_del_fd(fd, &lst);
-				if (*line)
-					free(*line);
-				*line = NULL;
-			}
-			return (ret);
-		}
-	}
-	return (1);
-}
+/*
+**	#include "libft.h"
+**	int		main(void)
+**	{
+**		char buff_test[BUFFER_SIZE] = "0123456789";
+**		char *line = NULL;
+**		char **line_ptr = &line;
+**
+**		ft_print_memory((void *)buff_test, BUFFER_SIZE + 1);
+**		ft_putnbr(ft_dump_buf(buff_test, line_ptr));
+**		P('\n');
+**		ft_print_memory((void *)buff_test, BUFFER_SIZE + 1);
+**		ft_putendl(line);
+**		return (0);
+**	}
+*/
