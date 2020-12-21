@@ -6,6 +6,18 @@
 # define BONUS 0
 #endif
 
+int		ft_strequ(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	while (s1[i] && s1[i] == s2[i])
+		i++;
+	if (!s1[i] && !s2[i])
+		return (1);
+	return (0);
+}
+
 void	ft_test(int ac, char **av)
 {
 	int		fd;
@@ -16,7 +28,10 @@ void	ft_test(int ac, char **av)
 	i = 0;
 	while (++i < ac)
 	{
-		fd = open(av[i], O_RDONLY);
+		if (ft_strequ(av[i], "-"))
+			fd = 0;
+		else
+			fd = open(av[i], O_RDONLY);
 		printf("filename = %s\n------------------------------\n\n", av[i]);
 		while ((ret = get_next_line(fd, &line)) > 0)
 		{
@@ -38,7 +53,10 @@ void	ft_test_bonus(int ac, char **av)
 	i = 0;
 	while (i < ac)
 	{
-		fd[i] = open(av[i], O_RDONLY);
+		if (ft_strequ(av[i], "-"))
+			fd[i] = 0;
+		else
+			fd[i] = open(av[i], O_RDONLY);
 		i++;
 	}
 	ret = 1;
