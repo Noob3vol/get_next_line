@@ -66,7 +66,7 @@ void	ft_test_bonus(int ac, char **av)
 		i = 0;
 		while (i < ac)
 		{
-			printf("filename = %s\n------------------------------\n\n", av[i]);
+			printf("filename = %s [%d]\n------------------------------\n\n", av[i], fd[i]);
 			ret |= get_next_line(fd[i], &line);
 			printf("%d ~~> %s\n", ret, line);
 			free(line);

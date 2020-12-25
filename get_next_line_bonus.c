@@ -6,7 +6,7 @@
 /*   By: iguidado <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:52:53 by iguidado          #+#    #+#             */
-/*   Updated: 2020/12/21 15:52:54 by iguidado         ###   ########.fr       */
+/*   Updated: 2020/12/21 18:45:15 by iguidado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	get_next_line(int fd, char **line)
 	if (!line)
 		return (-1);
 	*line = NULL;
-	buff = ft_get_buff(fd, fd_buff);
+	buff = ft_get_node(fd, &fd_buff);
 	while (!(ret = ft_dump_buff(line, buff)))
 	{
 		if ((ret = read(fd, buff, BUFF_SIZE)) < 1)

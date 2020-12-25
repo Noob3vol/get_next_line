@@ -6,7 +6,7 @@
 /*   By: iguidado <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:53:46 by iguidado          #+#    #+#             */
-/*   Updated: 2020/12/21 15:53:47 by iguidado         ###   ########.fr       */
+/*   Updated: 2020/12/21 18:44:36 by iguidado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef	struct	s_lkd_buff
 
 
 t_lkd_buff	*ft_create_lkd_buff(int fd, t_lkd_buff *next);
-char		*ft_get_buff(int fd, t_lkd_buff *fd_buff);
+char		*ft_get_node(int fd, t_lkd_buff **node_start);
 
 int			ft_mv_buff(char *buff);
 char		*ft_buffdup(char *buff);
