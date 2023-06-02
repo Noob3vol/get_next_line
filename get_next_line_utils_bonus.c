@@ -5,90 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iguidado <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/21 15:53:21 by iguidado          #+#    #+#             */
-/*   Updated: 2020/12/23 09:08:37 by iguidado         ###   ########.fr       */
+/*   Created: 2020/02/07 00:22:07 by iguidado          #+#    #+#             */
+/*   Updated: 2020/02/07 00:25:12 by iguidado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <stdio.h> //printf
+#include <stdlib.h>
 
-t_lkd_buff	*ft_create_lkd_buff(int fd, t_lkd_buff *next)
+t_buflist	*ft_new_fd(t_buflist *old, t_buflist *next, int fd)
 {
-	t_lkd_buff	*new;
 	int			i;
+	t_buflist	*new;
 
-	if (!(new = (t_lkd_buff *)malloc(sizeof(t_lkd_buff))))
+	if (!(new = (t_buflist *)malloc(sizeof(t_buflist))))
 		return (NULL);
 	new->fd = fd;
+	i = -1;
+	while (++i < BUFFER_SIZE)
+		new->buffer[i] = 0;
 	new->next = next;
-	i = 0;
-	while (i < BUFF_SIZE)
-	{
-		new->buff[i] = 0;
-		i++;
-	}
+	if (old)
+		old->next = new;
 	return (new);
 }
 
-char *ft_get_node(int fd, t_lkd_buff **node_start)
+t_buflist	*ft_get_fd(t_buflist **buflst, int fd)
 {
-	t_lkd_buff	*next;
-	t_lkd_buff	*prev;
-	t_lkd_buff	*fd_buff;
+	t_buflist *start;
+	t_buflist *old;
+	t_buflist *new;
 
-	fd_buff = *node_start;
-	if (!fd_buff)
+	old = NULL;
+	start = (*buflst);
+	while (*buflst && (*buflst)->fd < fd)
 	{
-		if (!(fd_buff = ft_create_lkd_buff(fd, NULL)))
-			return (NULL);
-		*node_start = fd_buff;
-		printf("\n--- creating head node fd = %d ---\n", fd_buff->fd);
-		return (fd_buff->buff);
+		old = (*buflst);
+		(*buflst) = (*buflst)->next;
 	}
-	prev = NULL;
-	while (fd_buff && fd < fd_buff->fd)
+	if (*buflst && fd == (*buflst)->fd)
 	{
-		prev = fd_buff;
-		fd_buff = fd_buff->next;
+		new = (*buflst);
+		(*buflst) = start;
+		return (new);
 	}
-	if (!fd_buff || fd > fd_buff->fd)
-	{
-		next = fd_buff;
-		if (!prev)
-		{
-			if(!(*node_start = ft_create_lkd_buff(fd, next)))
-				return (NULL);
-			return ((*node_start)->buff);
-		}
-		fd_buff = prev;
-		if (!(fd_buff->next = ft_create_lkd_buff(fd, next)))
-			return (NULL);
-		fd_buff = fd_buff->next;
-	}
-	return (fd_buff->buff);
+	if (!(new = ft_new_fd(old, (*buflst), fd)))
+		return (NULL);
+	(*buflst) = new;
+	if (start)
+		(*buflst) = start;
+	return (new);
 }
 
-void	ft_free_node(int fd, t_lkd_buff **origin_fd_buff)
+void		ft_del_fd(int fd, t_buflist **buflst)
 {
-	t_lkd_buff  *current;
-	t_lkd_buff	*next;
-	t_lkd_buff	*prev;
+	t_buflist *start;
+	t_buflist *old;
 
-	prev = NULL;
-	current = *origin_fd_buff;
-	if (fd == current->fd)
+	old = NULL;
+	start = (*buflst);
+	if (*buflst && fd == (*buflst)->fd)
+		start = (*buflst)->next;
+	else
 	{
-		next = current->next;
-		free(current);
-		*origin_fd_buff = next;
+		while (*buflst && fd != (*buflst)->fd)
+		{
+			old = (*buflst);
+			(*buflst) = (*buflst)->next;
+		}
+		old->next = (*buflst)->next;
+	}
+	if (!*buflst)
 		return ;
-	}
-	while (fd < current->fd)
-	{
-		prev = current;
-		current = current->next;
-	}
-	next = current->next;
-	free(current);
+	free(*buflst);
+	(*buflst) = start;
 }

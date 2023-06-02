@@ -5,23 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iguidado <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/21 15:53:34 by iguidado          #+#    #+#             */
-/*   Updated: 2020/12/21 15:53:36 by iguidado         ###   ########.fr       */
+/*   Created: 2019/11/30 03:38:02 by iguidado          #+#    #+#             */
+/*   Updated: 2020/02/07 00:23:07 by iguidado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
-
+# define GET_NEXT_LINE_H
 # include <stdlib.h>
 # include <unistd.h>
-# ifndef	BUFF_SIZE
-#  define BUFF_SIZE 8
-# endif
 
-int		ft_mv_buff(char *buff);
-char	*ft_buffdup(char *buff);
-char	*ft_linecat(char *line, char *buff);
-int		ft_dump_buff(char **line, char *buff);
 int		get_next_line(int fd, char **line);
+int		ft_manage_buf(char *buf);
+int		ft_dump_line(char *buf, char **line);
 
 #endif
